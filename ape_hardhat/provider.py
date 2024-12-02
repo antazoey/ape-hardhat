@@ -40,7 +40,7 @@ from pydantic_settings import SettingsConfigDict
 from web3 import HTTPProvider, Web3
 from web3.exceptions import ExtraDataLengthError
 from web3.gas_strategies.rpc import rpc_gas_price_strategy
-from web3.middleware import geth_poa_middleware
+from web3.middleware import ExtraDataToPOAMiddleware
 from web3.middleware.validation import MAX_EXTRADATA_LENGTH
 from web3.types import TxParams
 from yarl import URL
@@ -607,6 +607,9 @@ class HardhatProvider(SubprocessProvider, Web3Provider, TestProviderAPI):
                 block = self.web3.eth.get_block(block_id)
             except ExtraDataLengthError:
                 return True
+            except Exception:
+                # Light nodes may not have the requested block.
+                return False
             else:
                 return (
                     "proofOfAuthorityData" in block
@@ -615,7 +618,7 @@ class HardhatProvider(SubprocessProvider, Web3Provider, TestProviderAPI):
 
         # Handle if using PoA Hardhat
         if any(map(check_poa, (0, "latest"))):
-            self._web3.middleware_onion.inject(geth_poa_middleware, layer=0)
+            self._web3.middleware_onion.inject(ExtraDataToPOAMiddleware, layer=0)
 
     def _start(self):
         use_random_port = self._host == "auto"

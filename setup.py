@@ -72,16 +72,16 @@ setup(
     include_package_data=True,
     install_requires=[
         "eth-ape>=0.8.10,<0.9",
-        "ethpm-types",  # Use same version as eth-ape
-        "evm-trace",  # Use same version as eth-ape
-        "web3",  # Use same version as eth-ape
-        "chompjs>=1.1.9,<2",  # To help parse hardhat files
-        "requests",  # Use same version as eth-ape
-        "hexbytes",  # Use same version as eth-ape
-        "packaging",  # Use same version as eth-ape
-        "yarl>=1.9.2,<2",
+        "ethpm-types>=0.6.19,<0.7",
+        "evm-trace>=0.2.3,<0.3",
+        "web3>=7.6.0,<8",
+        "chompjs>=1.3.0,<2",
+        "requests>=2.32.3,<3",
+        "hexbytes>=1.2.1,<2",
+        "packaging>=24.2,<25",
+        "yarl>=1.18.3,<2",
     ],
-    python_requires=">=3.8,<4",
+    python_requires=">=3.9,<4",
     extras_require=extras_require,
     py_modules=["ape_hardhat"],
     license="Apache-2.0",
